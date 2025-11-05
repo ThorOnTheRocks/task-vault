@@ -1,0 +1,26 @@
+{
+  "exclude": [
+    "./coverage",
+    "./dist",
+    "**/*.test.ts",
+    "jest.config.js",
+    "eslint.config.mjs"
+  ],
+  "ts-node": {
+    "transpileOnly": true,
+    "files": true
+  },
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "ESNext",
+    "rootDir": "./src",
+    "moduleResolution": "node",
+    "checkJs": true,
+    "outDir": "./dist",
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "noImplicitAny": true,
+    "skipLibCheck": true
+  }
+}
