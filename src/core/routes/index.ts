@@ -1,6 +1,10 @@
-import { Router, type Request, type Response } from 'express';
+import { Router } from 'express';
+import { healthRouter } from './health';
 
-const router: Router = Router();
+export const router: Router = Router();
+
 const API_V1_PREFIX = '/api/v1';
 
-router.use(API_V1_PREFIX);
+router.use(`${API_V1_PREFIX}`, healthRouter);
+
+export { router as rootRouter };
