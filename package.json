@@ -8,6 +8,7 @@
     "dev": "npx tsx --env-file=.env --watch  src/server.ts",
     "build": "tsc",
     "start": "node dist/server.js",
+    "type-check": "tsc --noEmit",
     "lint": "eslint . --ext .ts",
     "lint:fix": "eslint . --ext .ts --fix",
     "prettier": "prettier --write 'src/**/*.{ts,js,json}'",
@@ -22,7 +23,9 @@
   "license": "ISC",
   "packageManager": "pnpm@10.12.1",
   "devDependencies": {
+    "@types/cors": "^2.8.19",
     "@types/express": "^5.0.5",
+    "@types/morgan": "^1.9.10",
     "@types/node": "^24.10.0",
     "@typescript-eslint/eslint-plugin": "^8.46.3",
     "@typescript-eslint/parser": "^8.46.3",
@@ -40,6 +43,9 @@
     "@faker-js/faker": "^10.1.0",
     "@prisma/client": "^6.19.0",
     "body-parser": "^2.2.0",
-    "express": "^5.1.0"
+    "cors": "^2.8.5",
+    "express": "^5.1.0",
+    "helmet": "^8.1.0",
+    "morgan": "^1.10.1"
   }
 }
