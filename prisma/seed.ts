@@ -1,17 +1,8 @@
-import { randomBytes, scrypt as _scrypt } from 'crypto';
-import { promisify } from 'util';
 import { PrismaClient, TaskStatus } from '../src/generated/index.js';
 import { faker } from '@faker-js/faker';
-
-const scrypt = promisify(_scrypt);
+import { hashPassword } from '../src/utils/hash-password';
 
 const prisma = new PrismaClient();
-
-async function hashPassword(password: string): Promise<string> {
-  const salt = randomBytes(16).toString('hex');
-  const derivedKey = (await scrypt(password, salt, 64)) as Buffer;
-  return `${salt}:${derivedKey.toString('hex')}`;
-}
 
 async function main() {
   const NUM_USERS = 10;
@@ -27,6 +18,7 @@ async function main() {
       firstName: name.split(' ')[0],
       lastName: name.split(' ')[1],
     });
+    const username = faker.internet.username();
     const password = await hashPassword('password12345');
 
     const tasks = Array.from({ length: TASKS_PER_USER }).map(() => ({
@@ -46,6 +38,7 @@ async function main() {
       create: {
         name,
         email,
+        username,
         password,
         tasks: {
           create: tasks,

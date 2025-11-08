@@ -1,4 +1,5 @@
 import type { Request, Response, NextFunction } from 'express';
+import { StatusCodes } from 'http-status-codes';
 
 export const serverError = (
   err: Error,
@@ -8,7 +9,7 @@ export const serverError = (
   next: NextFunction,
 ) => {
   console.error(err.stack);
-  res.status(500).json({
+  res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
     success: false,
     message: 'Something went wrong',
     error: process.env.NODE_ENV === 'development' ? err.message : undefined,
@@ -21,7 +22,7 @@ export const notFoundError = (
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   next: NextFunction,
 ) => {
-  res.status(404).json({
+  res.status(StatusCodes.NOT_FOUND).json({
     success: false,
     message: 'Resource not found',
     path: req.originalUrl, // Helpful for debugging
