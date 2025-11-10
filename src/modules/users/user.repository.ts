@@ -11,7 +11,7 @@ interface IUserRepository {
   findById(id: number): Promise<User | null>;
   findByEmail(email: string): Promise<User | null>;
   update(id: number, data: Partial<User>): Promise<User | null>;
-  delete(id: number): Promise<void>;
+  delete(id: number): Promise<boolean>;
   exists(id: number): Promise<boolean>;
 }
 
@@ -37,7 +37,11 @@ export class UserRepository implements IUserRepository {
   }
 
   async findAll(): Promise<User[]> {
-    const users = await this.prisma.user.findMany();
+    const users = await this.prisma.user.findMany({
+      orderBy: {
+        id: 'asc',
+      },
+    });
 
     return users;
   }
@@ -74,10 +78,18 @@ export class UserRepository implements IUserRepository {
     }
   }
 
-  async delete(id: number): Promise<void> {
-    await this.prisma.user.delete({
-      where: { id },
-    });
+  async delete(id: number): Promise<boolean> {
+    try {
+      await this.prisma.user.delete({
+        where: { id },
+      });
+      return true;
+    } catch (error: any) {
+      if (error.code === 'P2025') {
+        return false;
+      }
+      throw error;
+    }
   }
 
   async exists(id: number): Promise<boolean> {
